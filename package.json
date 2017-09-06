@@ -1,0 +1,32 @@
+{
+  "name": "home_tasks",
+  "version": "0.0.1",
+  "description": "Nodejs home tasks",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ech0oo/NodeJSHomeTasks.git"
+  },
+  "author": {
+    "email": "Ech0oo@tut.by",
+    "name": "Eduard Blazhevich"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ech0oo/NodeJSHomeTasks/issues"
+  },
+  "homepage": "https://github.com/Ech0oo/NodeJSHomeTasks#readme",
+  "keywords": [
+    "nodejs"
+  ],
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0"
+  }
+}
