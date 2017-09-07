@@ -1,3 +1,4 @@
-export default Config {
+export default
+{
     "name": "NodeMP HW App"
 }
