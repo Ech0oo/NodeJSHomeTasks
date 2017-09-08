@@ -1,6 +1,6 @@
 const appconfig = require("./config/application.json");
-const models = require("./models/model");
+const {Product, User} = require("./models/model");
 
 console.log("The name of the application is: " + appconfig.name);
-new models.Product;
-new models.User("My user module");
+new Product;
+new User("My user module");
