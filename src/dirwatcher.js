@@ -1,50 +1,38 @@
 import fs from 'fs';
+import {EventEmitter} from 'events';
 import {Files} from './files';
 
-class DirWatcher {
-    constructor(path = "\data", delay = 1) {
+class DirWatcher extends EventEmitter {
+    constructor() {
+        super();
         this.moduleName = "DirWatcher";
         console.log(this.moduleName);
-        this.oldList;
-
-        this.files = new Files();
-        this.watch(path, delay);
-
-        this.subscribers = [];
+        this.filesList = null;
+        this.changedFilesList = [];
     }
 
-    watch(path, delay) {
-        // implement function
-        console.log("path: ", path);
-        console.log("delay: ", delay);
-        console.log("dirname: ", __dirname);
-        const fullPath = __dirname + "\\" + path;
-        console.log("fullPath: ", fullPath);
-        this.files.scanDir(fullPath);
-
-        fs.watch(fullPath, function(event, fileName) {
-            console.log(fileName + " changed");
-            // this.notify(" changed");
-        });
-    }
-
-    subscribe(observer) {
-        this.subscribers.push(observer);
-        console.log("was subscribe ", this.subscribers);
-    }
-
-    unsubscribe(observer) {
-        const index = this.subscribers.indexOf(observer)
-
-        if (~index) {
-            this.subscribers.splice(index, 1)
-        }
-    }
-
-    notify(data) {
-        this.subscribers.forEach(function (subscriber) {
-            subscriber(data);
-        });
+    watch(fullPath, delay) {
+        const that = this;
+        const files = new Files();
+        setInterval(function() {
+            // scan dir
+            files.scanDir(fullPath)
+                .then(function(newList) {
+                    console.log("List of files was received");
+                    // get list of changed files
+                    if(that.filesList) {
+                        that.changedFilesList = files.compareLists(that.filesList, newList);
+                    }
+                    if (that.changedFilesList.length) {
+                        console.log("Were changes!!!", that.changedFilesList);
+                        const arrPath = that.changedFilesList.map( (fileName) => { return fullPath + "\\" + fileName });
+                        that.emit("fileChanged", arrPath);
+                    } else {
+                        console.log("No changes!");
+                    }
+                    that.filesList = newList;
+                });
+        }, delay);
     }
 }
 

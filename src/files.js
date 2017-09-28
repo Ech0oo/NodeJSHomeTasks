@@ -4,29 +4,48 @@ class Files {
     constructor(name, extension, size, changed) {
         this.moduleName = "Files module";
         console.log(this.moduleName);
-        this.fileList = {};
     }
 
     scanDir(path) {
-        console.log("Files reaction on change: ", path);
+        console.log("Scanning directory.. ", path);
         let that = this;
-        fs.readdir(path, function(err, files) {
-            console.log("Files in the folder: \n", files);
-            if (err) throw err;
-            if (files.length) {
-                for (let i = 0; i < files.length; i++) {
-                    let fullPath = path + "\\" + files[i];
-                    let itemStat = fs.statSync(fullPath);
-                    that.fileList[files[i]] = {
-                        "fileName": files[i],
-                        "fileSize": itemStat.size,
-                        "fileChanged": itemStat.mtime
-                    };
-                    // console.log(itemStat);
+        let fileList = {};
+        return new Promise (function (resolve, reject) {
+            fs.readdir(path, function(err, files) {
+                console.log("Files in the folder: \n", files);
+                if (err) reject(err);
+                if (files.length) {
+                    for (let i = 0; i < files.length; i++) {
+                        let fullPath = path + "\\" + files[i];
+                        let itemStat = fs.statSync(fullPath);
+                        fileList[files[i]] = {
+                            "fileName": files[i],
+                            "fileSize": itemStat.size,
+                            "fileChanged": itemStat.mtime
+                        };
+                    }
+                    resolve(fileList);
                 }
-                console.log("old list of files", that.fileList);
+            })
+        });
+    }
+
+    compareLists(prevList, newList) {
+        console.log("Compare lists.. ");
+        const that = this;
+        let changedFileList = []; // names of files that was changed
+        for (let fileName in newList) {
+            if (newList.hasOwnProperty(fileName)) {
+                if (prevList[fileName]) {
+                    let newItem = newList[fileName];
+                    let prevItem = prevList[fileName];
+                    if (JSON.stringify(prevItem) !== JSON.stringify(newItem)) {
+                        changedFileList.push(fileName);
+                    };
+                }
             }
-        })
+        }
+        return changedFileList;
     }
 }
 
