@@ -18,13 +18,13 @@ class DirWatcher extends EventEmitter {
             // scan dir
             files.scanDir(fullPath)
                 .then(function(newList) {
-                    console.log("List of files was received");
+                    console.log("List of files was received.");
                     // get list of changed files
                     if(that.filesList) {
                         that.changedFilesList = files.compareLists(that.filesList, newList);
                     }
                     if (that.changedFilesList.length) {
-                        console.log("Were changes!!!", that.changedFilesList);
+                        console.log("There were changes!!!", that.changedFilesList);
                         const arrPath = that.changedFilesList.map( (fileName) => { return fullPath + "\\" + fileName });
                         that.emit("fileChanged", arrPath);
                     } else {

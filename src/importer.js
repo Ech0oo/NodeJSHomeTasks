@@ -1,33 +1,28 @@
-const {promisify} = require('util')
 const fs = require('fs')
+const csvjson = require('csvjson');
 class Importer {
     constructor(name) {
         this.moduleName = "Importer module";
         console.log(this.moduleName);
     }
 
-    import(arrPath) {
-        console.log("Event!!!!!!!!!!!", arrPath);
-        Promise.all(
-            arrPath.map(function(path) {
-                return new Promise(
-                    function(resolve, reject) {
-                        fs.readFile(path, function(err, data) {
-                            // if (err) throw err;
-                            const csvFile = data.toString().split('\n');
-                            resolve(csvFile);
-                        })
-                    }
-                )
+    import(path) {
+        console.log("Async Event!!!!!!!!!!!", path);
+        return new Promise((resolve, reject) => {
+            fs.readFile(path, (err, data) => {
+                if (err) throw err;
+                const dataString = data.toString();
+                const jsonObject = csvjson.toObject(dataString);
+                resolve(jsonObject);
             })
-        ).then (function(arrCSVFiles) {
-            console.log(arrCSVFiles);
-            // convert to json function code
         })
     }
 
     importSync(path) {
-        // all data
+        console.log("Sync Event!!!!!!!!!!!", path);
+        const dataString = fs.readFileSync(path).toString();
+        const jsonObject = csvjson.toObject(dataString);
+        return jsonObject;
     }
 }
 
