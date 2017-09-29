@@ -7,7 +7,7 @@ class Importer {
     }
 
     import(path) {
-        console.log("Async Event!!!!!!!!!!!", path);
+        console.log("Async Import!!!!!!!!!!!", path);
         return new Promise((resolve, reject) => {
             fs.readFile(path, (err, data) => {
                 if (err) throw err;
@@ -19,7 +19,7 @@ class Importer {
     }
 
     importSync(path) {
-        console.log("Sync Event!!!!!!!!!!!", path);
+        console.log("Sync Import!!!!!!!!!!!", path);
         const dataString = fs.readFileSync(path).toString();
         const jsonObject = csvjson.toObject(dataString);
         return jsonObject;

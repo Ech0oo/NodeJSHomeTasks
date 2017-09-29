@@ -1,7 +1,7 @@
 const appconfig = require("./../config/application.json");
 const {Product, User} = require("./models/model");
-const {DirWatcher} = require("./DirWatcher");
-const {Importer} = require("./Importer");
+const {DirWatcher} = require("./modules/DirWatcher");
+const {Importer} = require("./modules/Importer");
 
 console.log("The name of the application is: " + appconfig.name);
 new Product();
