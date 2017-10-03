@@ -1,11 +1,6 @@
 import fs from 'fs';
 
-class Files {
-    constructor(name, extension, size, changed) {
-        this.moduleName = "Files module";
-        console.log(this.moduleName);
-    }
-
+const Files = {
     scanDir(path) {
         console.log("Scanning directory.. ", path);
         let that = this;
@@ -28,8 +23,7 @@ class Files {
                 }
             })
         });
-    }
-
+    },
     compareLists(prevList, newList) {
         console.log("Compare lists.. ");
         const that = this;

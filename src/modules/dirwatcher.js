@@ -12,25 +12,23 @@ class DirWatcher extends EventEmitter {
     }
 
     watch(fullPath, delay) {
-        const that = this;
-        const files = new Files();
-        setInterval(function() {
+        setInterval(() => {
             // scan dir
-            files.scanDir(fullPath)
-                .then(function(newList) {
+            Files.scanDir(fullPath)
+                .then((newList) => {
                     console.log("List of files was received.");
                     // get list of changed files
-                    if(that.filesList) {
-                        that.changedFilesList = files.compareLists(that.filesList, newList);
+                    if(this.filesList) {
+                        this.changedFilesList = Files.compareLists(this.filesList, newList);
                     }
-                    if (that.changedFilesList.length) {
-                        console.log("There were changes!!!", that.changedFilesList);
-                        const arrPath = that.changedFilesList.map( (fileName) => { return fullPath + "\\" + fileName });
-                        that.emit("fileChanged", arrPath);
+                    if (this.changedFilesList.length) {
+                        console.log("There were changes!!!", this.changedFilesList);
+                        const arrPath = this.changedFilesList.map( (fileName) => { return fullPath + "\\" + fileName });
+                        this.emit("fileChanged", arrPath);
                     } else {
                         console.log("No changes!");
                     }
-                    that.filesList = newList;
+                    this.filesList = newList;
                 });
         }, delay);
     }

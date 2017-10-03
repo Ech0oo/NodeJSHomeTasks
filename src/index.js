@@ -18,7 +18,7 @@ const dirWatcher = new DirWatcher();
 dirWatcher.watch(fullPath, daley);
 
 dirWatcher.on("fileChanged", (arrPath) => {
-    arrPath.forEach(function(path) {
+    arrPath.forEach((path) => {
         if(bAsyncImport) {
             importer.import(path)
             .then((jsonObject) => { console.log(jsonObject); });
