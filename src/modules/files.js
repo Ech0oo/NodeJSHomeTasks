@@ -27,18 +27,15 @@ const Files = {
     compareLists(prevList, newList) {
         console.log("Compare lists.. ");
         const that = this;
-        let changedFileList = []; // names of files that was changed
-        for (let fileName in newList) {
-            if (newList.hasOwnProperty(fileName)) {
-                if (prevList[fileName]) {
-                    let newItem = newList[fileName];
-                    let prevItem = prevList[fileName];
-                    if (JSON.stringify(prevItem) !== JSON.stringify(newItem)) {
-                        changedFileList.push(fileName);
-                    };
-                }
-            }
-        }
+        let changedFileList; // names of files that was changed
+        const newListKeys = Object.keys(newList);
+        changedFileList = newListKeys.reduce((Names, fileName) => {
+            if (JSON.stringify(prevList[fileName]) !== JSON.stringify(newList[fileName])) {
+                Names.push(fileName);
+            };
+            return Names;
+        }, []);
+
         return changedFileList;
     }
 }
