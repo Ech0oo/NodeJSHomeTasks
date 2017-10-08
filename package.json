@@ -32,6 +32,9 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
-    "csvjson": "^4.3.4"
+    "csvjson": "^4.3.4",
+    "minimist": "^1.2.0",
+    "request": "^2.83.0",
+    "through2": "^2.0.3"
   }
 }
