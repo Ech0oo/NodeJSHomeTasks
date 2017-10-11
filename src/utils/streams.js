@@ -1,7 +1,7 @@
 const minimist = require('minimist');
 const fs = require('fs');
 const through2 = require('through2');
-const csvjson = require('csvjson');
+const csv = require('csvtojson');
 
 const args = minimist(process.argv.slice(2));
 const WRONG_MESSAGE = "Wrong input!";
@@ -37,9 +37,6 @@ function inputOutput(filePath) {
     readable.on('end', () => {
         console.log("\nNo more chunks.");
     });
-    // const writable = fs.createWriteStream('file.txt');
-    // All the data from readable goes into 'file.txt'
-    // readable.pipe(transform);
 };
 
 function transformFile(filePath) {
@@ -56,14 +53,17 @@ function transformFile(filePath) {
 };
 
 /* from csv to json*/
-function transform() {
+function transform(filePath) {
     const readable = fs.createReadStream(filePath);
-    readable.pipe(through2(function (chunk, enc, callback) {
-        let chunk2 = chunk.toString();
-        const json = csvjson.toObject(chunk2);
-        callback(null, json);
-    }))
-    .pipe(process.stdout);
+    csv()
+    .fromStream(readable)
+    // .pipe(process.stdout)
+    .on('json', (jsonObj, rowIndex) => {
+        console.log(jsonObj);
+    })
+    .on('done',()=>{
+        console.log('end')
+    })
 };
 
 function httpClient() { /* ... */ };
