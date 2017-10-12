@@ -2,6 +2,7 @@ const minimist = require('minimist');
 const fs = require('fs');
 const through2 = require('through2');
 const csv = require('csvtojson');
+const split = require('split');
 
 const args = minimist(process.argv.slice(2));
 const WRONG_MESSAGE = "Wrong input!";
@@ -74,3 +75,7 @@ function printHelpMessage() {
 };
 
 function log() { console.log("log"); };
+
+const stream = methodObject;
+
+module.exports.stream = stream;
