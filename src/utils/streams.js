@@ -3,6 +3,7 @@ const fs = require('fs');
 const through2 = require('through2');
 const csv = require('csvtojson');
 const split = require('split');
+const Readable = require('readable-stream').Readable;
 
 const args = minimist(process.argv.slice(2));
 const WRONG_MESSAGE = "Wrong input!";
@@ -14,7 +15,8 @@ const methodObject = {
     httpClient: httpClient,
     httpServer: httpServer,
     saveToFileJSON: saveToFileJSON,
-    help: printHelpMessage
+    help: printHelpMessage,
+    csvtoobj: fromCSVToObj
 };
 
 if (args.help) {
@@ -63,6 +65,62 @@ function transform(filePath) {
             console.log('end')
         })
 };
+
+/**
+ * transfomator function
+ */
+function parseCSV() {
+    let templateKeys = [];
+    let parseHeadline = true;
+    return through2.obj((data, enc, cb) => {
+        if (parseHeadline) {
+            templateKeys = data.toString().split(',');
+            parseHeadline = false;
+            return cb(null, null);
+        }
+
+        const entries = data.toString().split(',');
+        const obj = {};
+
+        templateKeys.forEach((el, index) => {
+            obj[el] = entries[index];
+        });
+
+        console.log(obj);
+        return cb(null, obj);
+    });
+};
+
+function toJSON() {
+    let objs = [];
+    return through2.obj(function (data, enc, cb) {
+        objs.push(data);
+        cb(null, null);
+    }, function (cb) {
+        this.push(JSON.stringify(objs));
+        cb();
+    });
+};
+
+function fromCSVToObj(filePath) {
+    const readable = fs.createReadStream(filePath);
+
+    readable.pipe(parseCSV()).pipe(process.stdout);
+
+    readable.on('end', () => {
+        console.log("\nNo more chunks.");
+    });
+}
+
+
+
+
+
+
+
+
+
+
 
 /* from csv to txt file*/
 function saveToFileJSON(filePath) {
