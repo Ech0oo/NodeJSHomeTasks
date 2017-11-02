@@ -7,7 +7,7 @@ const Readable = require('readable-stream').Readable;
 
 const args = minimist(process.argv.slice(2));
 const WRONG_MESSAGE = "Wrong input!";
-const HELP_MESSAGE = "Please use command: >node streams.js --action readFile --file ./../data/MOCK_DATA.csv\n Action list:\n-inputOutput,\n-readFile,\n-transformFile,\n-transform,\n-saveToFileJSON";
+const HELP_MESSAGE = "Please use command: >node streams.js --action csvtotxt --file ./../data/MOCK_DATA.csv\n Action list:\n-inputOutput,\n-readFile,\n-transformFile,\n-transform,\n-saveToFileJSON";
 const methodObject = {
     readFile: inputOutput,
     transformFile: transformFile,
@@ -16,7 +16,7 @@ const methodObject = {
     httpServer: httpServer,
     saveToFileJSON: saveToFileJSON,
     help: printHelpMessage,
-    csvtoobj: fromCSVToObj
+    csvtotxt: fromCSVToJSON
 };
 
 if (args.help) {
@@ -67,7 +67,7 @@ function transform(filePath) {
 };
 
 /**
- * transfomator function
+ * transfomator function, csv to obj 
  */
 function parseCSV() {
     let templateKeys = [];
@@ -86,8 +86,21 @@ function parseCSV() {
             obj[el] = entries[index];
         });
 
-        console.log(obj);
+        // console.log(obj);
         return cb(null, obj);
+    });
+};
+/**
+ * transfomator function, obj to json
+ */
+function toJSON() {
+    let objs = [];
+    return through2.obj(function (data, enc, cb) {
+        objs.push(data);
+        cb(null, null);
+    }, function (cb) {
+        this.push(JSON.stringify(objs));
+        cb();
     });
 };
 
@@ -102,42 +115,16 @@ function toJSON() {
     });
 };
 
-function fromCSVToObj(filePath) {
-    const readable = fs.createReadStream(filePath);
 
-    readable.pipe(parseCSV()).pipe(process.stdout);
+function fromCSVToJSON(filePath) {
+    const readable = fs.createReadStream(filePath);
+    const writable = fs.createWriteStream('..\\data\\file.txt');
+    readable.pipe(split()).pipe(parseCSV()).pipe(toJSON()).pipe(writable);
 
     readable.on('end', () => {
-        console.log("\nNo more chunks.");
+        console.log("\nFile file.txt created.");
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-/* from csv to txt file*/
-function saveToFileJSON(filePath) {
-    fs.createReadStream(filePath)
-        .pipe(through2(
-            function (chunk, enc, callback) { callback(null, chunk) },
-            function (callback) {
-                this.push();
-                callback();
-            }
-        ))
-        .pipe(through2(function (chunk, enc, callback) {
-            let chunk2 = new Buffer(chunk.toString().toUpperCase());
-            callback(null, chunk2);
-         }))
-        .pipe(fs.createWriteStream('..\\data\\file.txt'));
-};
 
 function httpClient() { /* ... */ };
 function httpServer() { /* ... */ };
