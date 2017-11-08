@@ -1,0 +1,29 @@
+/*====== First =======*/
+.container {
+    margin: 0 auto;
+    max-width: 480px;
+  }
+
+  .messages-screen {
+    overflow: auto;
+    min-height: 150px;
+    max-height: 400px;
+    border: 1px solid #69b6ef;
+
+  }
+
+  .send-form {
+    padding: 15px 0;
+    overflow: hidden;
+  }
+
+  .message-input {
+    float:left;
+    width: 80%;
+  }
+
+  .send-button {
+    width:18%;
+    float: right;
+  }
+  /*====== End First =======*/

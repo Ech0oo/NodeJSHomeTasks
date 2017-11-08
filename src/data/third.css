@@ -1,0 +1,37 @@
+/*====== Third =======*/
+.bubble:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 12px;
+    top: 100%;
+    border: 8px solid;
+    border-color: #fff transparent transparent #fff;
+  }
+
+  .bubble.owner:after {
+    left:auto;
+    right: 12px;
+    border-color: #fff #fff transparent transparent;
+  }
+
+
+  .bubble-time {
+    font-size: 0.8em;
+    color:#a5a5a5;
+  }
+
+  .bubble-text {
+    margin: 0;
+  }
+
+  .brif-author {
+    clear: both;
+    padding-top: 20px;
+  }
+
+  .brif-author.owner {
+    text-align: right;
+  }
+  /*====== End third =======*/

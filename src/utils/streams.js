@@ -5,19 +5,29 @@ const csv = require('csvtojson');
 const split = require('split');
 const Readable = require('readable-stream').Readable;
 const path = require('path');
+const request = require('request');
 
 const args = minimist(process.argv.slice(2));
 const WRONG_MESSAGE = "Wrong input!";
-const HELP_MESSAGE = "Go to folder: >cd src\\utils\nRun command: >node streams.js --action csvtojson --file ./../data/MOCK_DATA.csv\n Action list:\n-inputOutput,\n-readFile,\n-transformFile,\n-transform,\n-saveToFileJSON";
+const HELP_MESSAGE =
+        `Go to folder: >cd src\\utils\nRun command: >node streams.js --action csvtojson --file ./../data/MOCK_DATA.csv
+        Action list:
+        -readFile (node streams.js --action readFile --file ./../data/MOCK_DATA.csv),
+        -toUpperCase (node streams.js --action toUpperCase --file ./../data/MOCK_DATA.csv),
+        -transformToJSON (>node streams.js --action transform --file ./../data/MOCK_DATA.csv),
+        -help (>node streams.js --action help),
+        -saveToFileJSON (>node streams.js --action csvtojson --file ./../data/MOCK_DATA.csv)
+        -cssBundler (>node streams.js --action cssBundler --file ./../data)`;
+
 const methodObject = {
     readFile: inputOutput,
-    transformFile: transformFile,
+    toUpperCase: transformFile,
     transform: transform,
-    httpClient: httpClient,
-    httpServer: httpServer,
     help: printHelpMessage,
     csvtojson: fromCSVToJSON,
-    cssBundler: cssBundler
+    cssBundler: cssBundler,
+    httpClient: httpClient,
+    httpServer: httpServer
 };
 
 if (args.help) {
@@ -44,6 +54,9 @@ function inputOutput(filePath) {
     });
 };
 
+/**
+ * transform file to Uppercase
+ */
 function transformFile(filePath) {
     const readable = fs.createReadStream(filePath);
     readable.pipe(through2(function (chunk, enc, callback) {
@@ -65,7 +78,7 @@ function transform(filePath) {
 };
 
 /**
- * transfomator function, csv to obj 
+ * transfomator function, csv to obj
  */
 function parseCSV() {
     let templateKeys = [];
@@ -120,19 +133,39 @@ function fromCSVToJSON(filePath) {
 /**
  * read all css files in the folder
  */
-function cssBundler(dirName) {
-    fs.readdir(dirName, function(err, files) {
-        // filter files in the directory
-        files = files.reduce(function (accum, file) {
-            const aFileParts = file.split(".");
-            const fileExt = aFileParts[aFileParts.length - 1];
-            if (fileExt === "csv") {
-                accum.push(file);
-            }
-            return accum;
-        }, []);
+function _readDir(dirName) {
+    return new Promise (function (resolve, reject) {
+        fs.readdir(dirName, function(err, files) {
+            if (err) reject(err);
+            // filter files in the directory
+            files = files.reduce(function (accum, file) {
+                const aFileParts = file.split(".");
+                const fileExt = aFileParts[aFileParts.length - 1];
+                if (fileExt === "css" && file !== "bundle.css") {
+                    accum.push(file);
+                }
+                return accum;
+            }, []);
+            resolve(files);
+        });
     });
+}
 
+/**
+ * create css bundle
+ */
+function cssBundler(dirPath) {
+    _readDir(dirPath).then((files) => {
+        const writable = fs.createWriteStream('..\\data\\bundle.css');
+        files.forEach((file) => {
+            const readable = fs.createReadStream(dirPath + "/" + file);
+            readable.pipe(writable);
+        });
+        writable.on('finish', () => {
+            const writable2 = fs.createWriteStream('..\\data\\bundle.css', {"flags":"a"});
+            request('https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd247a91c7e26a15.css').pipe(writable2);
+        })
+    });
 }
 
 function httpClient() { /* ... */ };
@@ -142,7 +175,6 @@ function printHelpMessage() {
     console.log(HELP_MESSAGE);
 };
 
-function log() { console.log("log"); };
 const stream = methodObject;
 
 module.exports.stream = stream;
