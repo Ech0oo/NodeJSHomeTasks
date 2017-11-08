@@ -4,19 +4,20 @@ const through2 = require('through2');
 const csv = require('csvtojson');
 const split = require('split');
 const Readable = require('readable-stream').Readable;
+const path = require('path');
 
 const args = minimist(process.argv.slice(2));
 const WRONG_MESSAGE = "Wrong input!";
-const HELP_MESSAGE = "Please use command: >node streams.js --action csvtotxt --file ./../data/MOCK_DATA.csv\n Action list:\n-inputOutput,\n-readFile,\n-transformFile,\n-transform,\n-saveToFileJSON";
+const HELP_MESSAGE = "Go to folder: >cd src\\utils\nRun command: >node streams.js --action csvtojson --file ./../data/MOCK_DATA.csv\n Action list:\n-inputOutput,\n-readFile,\n-transformFile,\n-transform,\n-saveToFileJSON";
 const methodObject = {
     readFile: inputOutput,
     transformFile: transformFile,
     transform: transform,
     httpClient: httpClient,
     httpServer: httpServer,
-    saveToFileJSON: saveToFileJSON,
     help: printHelpMessage,
-    csvtotxt: fromCSVToJSON
+    csvtojson: fromCSVToJSON,
+    cssBundler: cssBundler
 };
 
 if (args.help) {
@@ -60,10 +61,7 @@ function transform(filePath) {
         .pipe(process.stdout)
         .on('json', (jsonObj, rowIndex) => {
             console.log(jsonObj);
-        })
-        .on('done', () => {
-            console.log('end')
-        })
+        });
 };
 
 /**
@@ -104,26 +102,37 @@ function toJSON() {
     });
 };
 
-function toJSON() {
-    let objs = [];
-    return through2.obj(function (data, enc, cb) {
-        objs.push(data);
-        cb(null, null);
-    }, function (cb) {
-        this.push(JSON.stringify(objs));
-        cb();
-    });
-};
-
-
+/**
+ * read csv file and save it as a json file with the same name
+ */
 function fromCSVToJSON(filePath) {
+    const fileName = path.parse(filePath);
     const readable = fs.createReadStream(filePath);
-    const writable = fs.createWriteStream('..\\data\\file.txt');
+    const writable = fs.createWriteStream('..\\data\\' + fileName.name + '.json');
+
     readable.pipe(split()).pipe(parseCSV()).pipe(toJSON()).pipe(writable);
 
     readable.on('end', () => {
-        console.log("\nFile file.txt created.");
+        console.log("\nFile " + fileName.name + ".json is created.");
     });
+}
+
+/**
+ * read all css files in the folder
+ */
+function cssBundler(dirName) {
+    fs.readdir(dirName, function(err, files) {
+        // filter files in the directory
+        files = files.reduce(function (accum, file) {
+            const aFileParts = file.split(".");
+            const fileExt = aFileParts[aFileParts.length - 1];
+            if (fileExt === "csv") {
+                accum.push(file);
+            }
+            return accum;
+        }, []);
+    });
+
 }
 
 function httpClient() { /* ... */ };
