@@ -3,7 +3,6 @@ const fs = require('fs');
 const through2 = require('through2');
 const csv = require('csvtojson');
 const split = require('split');
-const Readable = require('readable-stream').Readable;
 const path = require('path');
 const request = require('request');
 
@@ -30,16 +29,21 @@ const methodObject = {
     httpServer: httpServer
 };
 
-if (args.help) {
+let action = args.action || args.a;
+let file = args.file || args.f;
+let help = args.help || args.h;
+
+
+if (help) {
     console.log(HELP_MESSAGE);
     return;
 }
 
-if (args.action && methodObject[args.action]) {
-    if (args.file) {
-        methodObject[args.action](args.file);
+if (action && methodObject[action]) {
+    if (file) {
+        methodObject[action](file);
     } else {
-        methodObject[args.action]();
+        methodObject[action]();
     }
 } else {
     console.log(WRONG_MESSAGE);
@@ -59,12 +63,18 @@ function inputOutput(filePath) {
  */
 function transformFile(filePath) {
     const readable = fs.createReadStream(filePath);
-    readable.pipe(through2(function (chunk, enc, callback) {
-        let chunk2 = new Buffer(chunk.toString().toUpperCase());
-        callback(null, chunk2);
-     }))
-    .pipe(process.stdout);
+    readable.pipe(toUpperCase()).pipe(process.stdout);
 };
+
+/**
+ * transfomator function, toUpperCase 
+ */
+function toUpperCase() {
+    return through2.obj(function (data, enc, cb) {
+        let chunk = data.toString().toUpperCase();
+        cb(null, chunk);
+    }); 
+}
 
 /* from csv to json*/
 function transform(filePath) {
@@ -97,7 +107,6 @@ function parseCSV() {
             obj[el] = entries[index];
         });
 
-        // console.log(obj);
         return cb(null, obj);
     });
 };
