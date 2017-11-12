@@ -1,9 +1,13 @@
 import express from "express";
 import products from "../models/products.json";
 import reviews from "../models/reviews.json";
-import users from "../models/users.json"
+import users from "../models/users.json";
+import bodyParser from "body-parser";
+import fs from "fs";
 
 const apiRouter = express.Router();
+
+apiRouter.use("/products", bodyParser.json());
 
 apiRouter.route('/products')
     .get((req, res) => {
@@ -13,7 +17,13 @@ apiRouter.route('/products')
         res.end(`All products: ${JSON.stringify(products)}`);
     })
     .post((req, res) => {
-        res.end('Products POST method page');
+        const productsPath = __dirname + "/../models/products.json";
+        const newProduct = req.body;
+        
+        products.push(newProduct);
+        fs.writeFile(productsPath, JSON.stringify(products));
+
+        res.status(200).json(newProduct);
     });
 
 apiRouter.get('/products/:id', (req, res) => {
