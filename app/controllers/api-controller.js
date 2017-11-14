@@ -14,8 +14,12 @@ export const getProductById = (req, res) => {
     const product = products.find((element) => {
         return element.id === +id;
     });
-    res.json(product.name);
-    res.end();
+    if (product === undefined) {
+        res.status(400).send("Wrong id number!");
+    } else {
+        res.json(product.name);
+        res.end();
+    }
 };
 
 export const postProducts = (req, res) => {
@@ -33,11 +37,19 @@ export const getProductReviewById = (req, res) => {
     const review = reviews.find((element) => {
         return element.id === +id;
     });
-    res.json(review.review);
-    res.end();
+    if (review === undefined) {
+        res.status(400).send("Wrong id number!");
+    } else {
+        res.json(review.review);
+        res.end();
+    }
 };
 
 export const getUsers = (req, res) => {
     res.json(users);
     res.end();
+};
+
+export const getNotFound = (req, res) => {
+    res.status(404).send("Not Found 404");
 };
