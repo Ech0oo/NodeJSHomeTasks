@@ -1,7 +1,4 @@
-import {app} from "./app";
-import {cookieParser} from "./meddlewares/cookie-parser";
-import {parsedQuery} from "./meddlewares/query-parser";
-import {apiRouter} from "./routes/api-router";
+import {app, apiRouter, parsedQuery, cookieParser} from "./app";
 
 const port = process.env.PORT || 8081;
 

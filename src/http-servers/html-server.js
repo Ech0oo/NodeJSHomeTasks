@@ -1,10 +1,11 @@
 const http = require("http");
 const fs = require("fs");
 const through2 = require('through2');
+const path = require("path");
 
 
 http.createServer((req, res) => {
-    const path = __dirname + "/" + "index.html";
+    const filePath = path.join(__dirname,"index.html");
     
     res.writeHead(200, {
         "Content-Type": "text/html"
@@ -15,7 +16,7 @@ http.createServer((req, res) => {
     // const newIndexFile = indexFile.replace("{message}", newMessage);
     // res.end(newIndexFile);
 
-    readable = fs.createReadStream(path);
+    const readable = fs.createReadStream(filePath);
     const setMassage = through2((data, utf8, callback) => {
         callback(null, data.toString().replace("{message}", newMessage));
     });
