@@ -6,7 +6,6 @@ import path from "path";
 
 export const getProducts = (req, res) => {
     res.json(products);
-    res.end();
 };
 
 export const getProductById = (req, res) => {
@@ -18,7 +17,6 @@ export const getProductById = (req, res) => {
         res.status(400).send("Wrong id number!");
     } else {
         res.json(product.name);
-        res.end();
     }
 };
 
@@ -29,7 +27,7 @@ export const postProducts = (req, res) => {
     products.push(newProduct);
     fs.writeFile(productsPath, JSON.stringify(products));
 
-    res.status(200).json(newProduct);
+    res.json(newProduct);
 };
 
 export const getProductReviewById = (req, res) => {
@@ -41,13 +39,11 @@ export const getProductReviewById = (req, res) => {
         res.status(400).send("Wrong id number!");
     } else {
         res.json(review.review);
-        res.end();
     }
 };
 
 export const getUsers = (req, res) => {
     res.json(users);
-    res.end();
 };
 
 export const getNotFound = (req, res) => {
