@@ -1,4 +1,4 @@
-import {app, apiRouter, parsedQuery, cookieParser} from "./app";
+import {app, apiRouter, parsedQuery, cookieParser, authRouter} from "./app";
 
 const port = process.env.PORT || 8081;
 
@@ -7,7 +7,7 @@ app.listen(port, () => {
 });
 
 app.use(cookieParser); 
-app.use(parsedQuery); 
+app.use(parsedQuery);
 
 app.get("/", (req, res) => {
     console.log(req.parsedCookies);
@@ -15,3 +15,4 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", apiRouter);
+app.use("/auth", authRouter);

@@ -1,0 +1,15 @@
+{
+    "title": "user auth",
+    "type": "object",
+    "propoerties": {
+        "userName": {
+            "type": "string",
+            "description": "name of the user"
+        },
+        "password": {
+            "type": "string",
+            "description": "user's password"
+        }
+    },
+    "required": ["userName", "password"]
+}
