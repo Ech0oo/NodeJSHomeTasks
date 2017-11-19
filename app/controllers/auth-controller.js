@@ -2,6 +2,7 @@ import users from "../models/users.json";
 import authSchema from "../config/auth-schema.json";
 import Ajv from "ajv";
 import jwt from "jsonwebtoken";
+import authProp from "../config/auth-properties.json";
 
 const ajv = new Ajv({allErrors: true});
 ajv.addSchema(authSchema, "user-auth");
@@ -37,7 +38,7 @@ function postGenerateToken(req, res, next) {
         const payload = {
             "userId": oUser.id
         };
-        let token = jwt.sign(payload, "secretString", { expiresIn: 30 });
+        let token = jwt.sign(payload, authProp.secret, { expiresIn: 3000 });
         let oRes = {
             "code": 200,
             "message": "OK",

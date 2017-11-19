@@ -3,6 +3,8 @@ import reviews from "../models/reviews.json";
 import users from "../models/users.json";
 import fs from "fs";
 import path from "path";
+import jwt from "jsonwebtoken";
+import authProp from "../config/auth-properties.json";
 
 export const getProducts = (req, res) => {
     res.json(products);
@@ -49,3 +51,18 @@ export const getUsers = (req, res) => {
 export const getNotFound = (req, res) => {
     res.status(404).send("Not Found 404");
 };
+
+export const verifyToken = (req, res, next) => {
+    const token = req.headers["x-access-token"];
+    if (token) {
+        jwt.verify(token, authProp.secret, function(err, decoded) {
+            if (err) {
+                res.json({ success: false, message: "Failed to authenticate token." });
+            } else {
+                next();
+            }
+        });
+    } else {
+        res.status(403).send({ success: false, message: "No token provided." });
+    }
+}
