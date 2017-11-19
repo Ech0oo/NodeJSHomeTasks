@@ -1,26 +1,38 @@
 [
     {
         "id": 1,
-        "name": "User name is 1"
+        "name": "user1",
+        "password": "password1",
+        "email": "email1"
     },
     {
         "id": 2,
-        "name": "User name is 2"
+        "name": "user2",
+        "password": "password2",
+        "email": "email2"
     },
     {
         "id": 3,
-        "name": "User name is 3"
+        "name": "user3",
+        "password": "password3",
+        "email": "email3"
     },
     {
         "id": 4,
-        "name": "User name is 4"
+        "name": "user4",
+        "password": "password4",
+        "email": "email4"
     },
     {
         "id": 5,
-        "name": "User name is 5"
+        "name": "user5",
+        "password": "password5",
+        "email": "email5"
     },
     {
         "id": 6,
-        "name": "User name is 6"
+        "name": "user6",
+        "password": "password6",
+        "email": "email6"
     }
 ]
