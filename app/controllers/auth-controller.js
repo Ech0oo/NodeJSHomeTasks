@@ -22,7 +22,7 @@ function _errorResponse(schemaErrors) {
         };
     });
     return {
-        status: "faild",
+        status: "failed",
         errors: aErrors
     }
 }
