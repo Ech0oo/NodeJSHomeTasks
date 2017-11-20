@@ -1,5 +1,6 @@
 import express from "express";
-import {getProducts, postProducts, getProductById, getProductReviewById, getUsers, getNotFound, verifyToken} from "../controllers/api-controller";
+import {getProducts, postProducts, getProductById, getProductReviewById, getUsers, getNotFound} from "../controllers/api-controller";
+import {verifyToken} from "../middlewares/token-verifier";
 import bodyParser from "body-parser";
 
 const apiRouter = express.Router();
