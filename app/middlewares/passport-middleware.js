@@ -4,6 +4,7 @@ import {Strategy as LocalStrategy} from "passport-local";
 import {Strategy as JwtStrategy} from "passport-jwt";
 import {ExtractJwt} from "passport-jwt";
 import authProp from "../config/auth-properties.json";
+import {Strategy as FacebookStrategy} from "passport-facebook";
 
 passport.use(new LocalStrategy({
     usernameField: "userName",
@@ -33,5 +34,18 @@ passport.use(new JwtStrategy({
         done(null, jwt_payload);
     }
 }));
+
+const opt = {
+    clientID: authProp.facebook.clientID,
+    clientSecret: authProp.facebook.clientSecret,
+    callbackURL: authProp.facebook.callbackURL,
+    session: false
+};
+
+passport.use(new FacebookStrategy(opt,
+    function (accessToken, refreshToken, profile, done) {
+        done(null, profile.id);
+    }
+));
 
 export {passport};
