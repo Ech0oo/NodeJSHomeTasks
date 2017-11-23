@@ -13,4 +13,6 @@ How to run:
 
 -Task N4 is done and could be checked.
 
->Task N5 in progress.
+-Task N5 is done and could be checked.
+
+>Task N6 in progress.
