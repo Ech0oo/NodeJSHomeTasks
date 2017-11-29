@@ -1,4 +1,4 @@
-import {app, apiRouter, parsedQuery, cookieParser, authRouter, passport} from "./app";
+import {app, apiRouter, parsedQuery, cookieParser, authRouter, passport, sequelize} from "./app";
 
 const port = process.env.PORT || 8081;
 
