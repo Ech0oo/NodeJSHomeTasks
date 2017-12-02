@@ -1,8 +1,0 @@
-{
-    "secret": "secretString",
-    "facebook": {
-        "clientID": "",
-        "clientSecret": "",
-        "callbackURL": "http://localhost:8081/api/products"
-    }
-}

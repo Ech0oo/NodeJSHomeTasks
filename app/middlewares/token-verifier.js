@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import authProp from "../config/auth-properties.json";
+import {authProp} from "../config/auth-properties";
 
 export const verifyToken = (req, res, next) => {
     const token = req.headers["x-access-token"];

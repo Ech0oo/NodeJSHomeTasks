@@ -3,7 +3,7 @@ import users from "../models/users.json";
 import {Strategy as LocalStrategy} from "passport-local";
 import {Strategy as JwtStrategy} from "passport-jwt";
 import {ExtractJwt} from "passport-jwt";
-import authProp from "../config/auth-properties.json";
+import {authProp} from "../config/auth-properties";
 import {Strategy as FacebookStrategy} from "passport-facebook";
 
 passport.use(new LocalStrategy({

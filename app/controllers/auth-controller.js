@@ -1,31 +1,6 @@
 import users from "../models/users.json";
-import authSchema from "../config/auth-schema.json";
-import Ajv from "ajv";
 import jwt from "jsonwebtoken";
-import authProp from "../config/auth-properties.json";
-
-const ajv = new Ajv({allErrors: true});
-ajv.addSchema(authSchema, "user-auth");
-
-function validateSchema(schemaName) {
-    return (req, res, next) => {
-        const isValid = ajv.validate(schemaName, req.body);
-        isValid ? next() : res.status(400).json(_errorResponse(ajv.errors));
-    }
-};
-
-function _errorResponse(schemaErrors) {
-    const aErrors = schemaErrors.map((oError) => {
-        return {
-            path: oError.dataPath,
-            message: oError.message
-        };
-    });
-    return {
-        status: "failed",
-        errors: aErrors
-    }
-}
+import {authProp} from "../config/auth-properties";
 
 function postGenerateToken(req, res, next) {
     const userData = req.body;
@@ -55,6 +30,5 @@ function postGenerateToken(req, res, next) {
 }
 
 export {
-    validateSchema,
     postGenerateToken
 };
