@@ -3,47 +3,63 @@ import reviews from "../models/reviews.json";
 import users from "../models/users.json";
 import fs from "fs";
 import path from "path";
+import {dbconnection, Products, Users, Reviews} from "../models/postgres-db"
 
 export const getProducts = (req, res) => {
-    res.json(products);
+    Products.findAll().then(function(allProducts) {
+        res.json(allProducts);
+    });
 };
 
 export const getProductById = (req, res) => {
     const id = req.params.id;
-    const product = products.find((element) => {
-        return element.id === +id;
-    });
-    if (product === undefined) {
-        res.status(400).send("Wrong id number!");
-    } else {
-        res.json(product.name);
-    }
+    Products.findById(id)
+        .then(function(product) {
+            if (product) {
+                res.json(product.name);
+            } else {
+                res.status(400).send("Wrong id number!");
+            }
+        })
+        .catch(function(error) {
+            res.json(error);
+        });
 };
 
 export const postProducts = (req, res) => {
-    const productsPath = path.join(__dirname, "..", "models", "products.json");
     const newProduct = req.body;
-
-    products.push(newProduct);
-    fs.writeFile(productsPath, JSON.stringify(products));
-
-    res.json(newProduct);
+    Products.create({
+        name: newProduct.name.trim(),
+        modelId: newProduct.modelId
+    })
+    .then(function(newProduct) {
+        res.json(newProduct);
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
 };
 
 export const getProductReviewById = (req, res) => {
     const id = req.params.id;
-    const review = reviews.find((element) => {
-        return element.id === +id;
-    });
-    if (review === undefined) {
-        res.status(400).send("Wrong id number!");
-    } else {
-        res.json(review.review);
-    }
+
+    Reviews.findById(id)
+        .then(function(product) {
+            if (product) {
+                res.json(product.name);
+            } else {
+                res.status(400).send("Wrong id number!");
+            }
+        })
+        .catch(function(error) {
+            res.json(error);
+        });
 };
 
 export const getUsers = (req, res) => {
-    res.json(users);
+    Users.findAll().then(function(allUsers) {
+        res.json(allUsers);
+    });
 };
 
 export const getNotFound = (req, res) => {
