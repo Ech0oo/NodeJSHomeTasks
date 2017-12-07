@@ -3,7 +3,7 @@ import reviews from "../models/reviews.json";
 import users from "../models/users.json";
 import fs from "fs";
 import path from "path";
-import {dbconnection, Products, Users, Reviews} from "../models/postgres-db"
+import {dbconnection} from "../models/postgres-db"
 
 export const getProducts = (req, res) => {
     Products.findAll().then(function(allProducts) {

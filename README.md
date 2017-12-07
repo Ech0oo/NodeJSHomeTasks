@@ -16,3 +16,9 @@ How to run:
 -Task N5 is done and could be checked.
 
 >Task N6 in progress.
+*install pg
+*install sequelize-cli globaly and localy
+*create db / sequelize db:create
+*create tables and migrate / sequelize db:migrate
+*add data to bd from json files / sequelize db:seed:all
+*run express script / npm run express
