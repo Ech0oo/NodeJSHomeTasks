@@ -31,6 +31,7 @@ passport.use(new JwtStrategy({
     secretOrKey: authProp.secret
 }, function(jwt_payload, done) {
     if (jwt_payload) {
+        // console.log(req.body);
         done(null, jwt_payload);
     }
 }));

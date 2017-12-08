@@ -7,7 +7,6 @@ const authRouter = express.Router();
 
 authRouter.use("/", validateSchema("user-auth"));
 authRouter.use("/", passport.authenticate('local', { session: false }));
-// authRouter.use("/", passport.authenticate('facebook', { session: false }));
 
 authRouter.route('/')
     .post(postGenerateToken);
