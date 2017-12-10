@@ -4,6 +4,9 @@ import users from "../models/users.json";
 import fs from "fs";
 import path from "path";
 
+
+
+
 export const getProducts = (req, res) => {
     res.json(products);
 };
