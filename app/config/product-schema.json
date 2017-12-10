@@ -1,0 +1,17 @@
+{
+    "title": "product validation",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "minLength": 3,
+            "description": "name of the product"
+        },
+        "modelId": {
+            "type": "number",
+            "maximum": 15,
+            "description": "id of the model"
+        }
+    },
+    "required": ["name", "modelId"]
+}
