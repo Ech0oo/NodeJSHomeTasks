@@ -28,3 +28,5 @@ How to run:
 5.add data to bd from json files >sequelize db:seed:all
 
 6.run express script >npm run express
+
+-Task N6 is done and could be checked (branch task_7_NoSQL).
