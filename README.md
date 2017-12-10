@@ -1,3 +1,3 @@
 # NodeJS homework tasks
 
->Task N7 in progress.
+-Task N7 is done and could be checked.
