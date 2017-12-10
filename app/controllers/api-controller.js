@@ -1,11 +1,7 @@
 import products from "../models/products.json";
-import reviews from "../models/reviews.json";
 import users from "../models/users.json";
 import fs from "fs";
 import path from "path";
-
-
-
 
 export const getProducts = (req, res) => {
     res.json(products);

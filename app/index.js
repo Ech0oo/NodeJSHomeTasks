@@ -4,7 +4,6 @@ import {
 	parsedQuery,
 	bodyParser,
 	addCities,
-	consolePrintRandomDocument,
 	rootController
 } from "./app";
 
@@ -18,8 +17,10 @@ addCities();
 
 apiRouter.use(bodyParser.json());
 app.use(parsedQuery);
+app.use(rootController.addUsers);
+app.use(rootController.addProducts);
 
-// app.get("/", consolePrintRandomDocument); // print without mongoose
+
 app.get("/", rootController.printRandomDocument);
 
 app.use("/api", apiRouter);
