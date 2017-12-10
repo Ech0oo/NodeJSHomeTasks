@@ -3,17 +3,6 @@ import Users from "../models/users-model";
 import dataUsers from "../models/users.json";
 import Products from "../models/products-model";
 import dataProducts from "../models/products.json";
-import mongoose from "mongoose";
-
-mongoose.Promise = global.Promise
-
-mongoose.connect('mongodb://localhost/task7', {useMongoClient: true});
-const db = mongoose.connection;
-
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {
-  console.log("Mongoose is connected!!!");
-});
 
 export async function printRandomDocument(req, res) {
     try {

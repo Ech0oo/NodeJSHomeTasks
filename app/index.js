@@ -15,8 +15,8 @@ app.listen(port, () => {
 
 addCities();
 
-apiRouter.use(bodyParser.json());
 app.use(parsedQuery);
+app.use(bodyParser.json());
 app.use(rootController.addUsers);
 app.use(rootController.addProducts);
 

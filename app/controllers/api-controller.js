@@ -1,50 +1,50 @@
-import products from "../models/products.json";
-import users from "../models/users.json";
-import fs from "fs";
-import path from "path";
+import Products from "../models/products-model";
+import Users from "../models/users-model";
 
-export const getProducts = (req, res) => {
-    res.json(products);
-};
-
-export const getProductById = (req, res) => {
-    const id = req.params.id;
-    const product = products.find((element) => {
-        return element.id === +id;
-    });
-    if (product === undefined) {
-        res.status(400).send("Wrong id number!");
-    } else {
-        res.json(product.name);
+export async function getProducts(req, res, next) {
+    try {
+        const products = await Products.find().exec();
+        res.json(products);
+    } catch (err) {
+        res.status(500).json(err);
     }
+    next();
 };
 
-export const postProducts = (req, res) => {
-    const productsPath = path.join(__dirname, "..", "models", "products.json");
+export async function getProductsByModelId(req, res, next) {
+    try {
+        const modelId = req.params.id;
+        
+        const productArr = await Products.find().where("modelId").equals(modelId).exec();
+        if (productArr === undefined) {
+            res.status(400).send("Wrong id number!");
+        } else {
+            const names = productArr.map((product) => { return product.name; });
+            res.json(names);
+        }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+    next();
+};
+
+export async function postProducts(req, res, next) {
     const newProduct = req.body;
-    
-    products.push(newProduct);
-    fs.writeFile(productsPath, JSON.stringify(products));
-
-    res.json(newProduct);
-};
-
-export const getProductReviewById = (req, res) => {
-    const id = req.params.id;
-    const review = reviews.find((element) => {
-        return element.id === +id;
-    });
-    if (review === undefined) {
-        res.status(400).send("Wrong id number!");
-    } else {
-        res.json(review.review);
+    try {
+        const createdProduct = await Products.create(newProduct);
+        res.json(createdProduct);
+    } catch (err) {
+        res.status(500).json(err);
     }
+    next();
 };
 
-export const getUsers = (req, res) => {
-    res.json(users);
-};
-
-export const getNotFound = (req, res) => {
-    res.status(404).send("Not Found 404");
+export async function getUsers(req, res, next) {
+    try {
+        const users = await Users.find().exec();
+        res.json(users);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+    next();
 };
