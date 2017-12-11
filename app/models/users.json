@@ -1,0 +1,32 @@
+[
+    {
+        "name": "user1",
+        "password": "password1",
+        "email": "email1"
+    },
+    {
+        "name": "user2",
+        "password": "password2",
+        "email": "email2"
+    },
+    {
+        "name": "user3",
+        "password": "password3",
+        "email": "email3"
+    },
+    {
+        "name": "user4",
+        "password": "password4",
+        "email": "email4"
+    },
+    {
+        "name": "user5",
+        "password": "password5",
+        "email": "email5"
+    },
+    {
+        "name": "user6",
+        "password": "password6",
+        "email": "email6"
+    }
+]
