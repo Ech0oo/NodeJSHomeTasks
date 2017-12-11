@@ -1,0 +1,178 @@
+---
+swagger: "2.0"
+info:
+  description: "This is stask number 8.\n"
+  version: "1.0.0"
+  title: "Swagger Petstore"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "ech0oo@tut.by"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: localhost:8081
+basePath: /
+consumes:
+- "application/json"
+produces:
+- "application/json"
+tags:
+- name: "root"
+  description: "Default operations with data"
+- name: "api"
+  description: "Access to information and operations with products and users"
+schemes:
+- "http"
+paths:
+  /:
+    get:
+      tags:
+      - "root"
+      summary: "Return a random City"
+      description: "Get a random city from the mongodb using ODM mongoose"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/City"
+        400:
+          description: "Invalid status value"
+  /api/products:
+    get:
+      tags:
+      - "api"
+      summary: "Find all Products"
+      description: "Return json obgect with all products"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+        400:
+          description: "Invalid status value"
+    post:
+      tags:
+      - "api"
+      summary: "Add new products"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "name"
+        description: "User name"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        default:
+          description: "successful operation"
+  /api/products/{modelId}:
+    get:
+      tags:
+      - "api"
+      summary: "Get an array of the Product names by modelId"
+      description: "Return an array of the product names"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "modelId"
+        in: "path"
+        description: "The modelId needs to filter products"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        400:
+          description: "Invalid status value"
+  /api/users:
+    get:
+      tags:
+      - "api"
+      summary: "Get all Users"
+      description: "Find all Users"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: "Invalid status value"
+definitions:
+  City:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      country:
+        type: "string"
+      capital:
+        type: "boolean"
+        default: false
+      location:
+        $ref: "#/definitions/City_location"
+    example:
+      country: "country"
+      capital: false
+      name: "name"
+      location:
+        lat: 0
+        long: 6
+      _id: "_id"
+  Product:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      modelId:
+        type: "string"
+    example:
+      modelId: "modelId"
+      name: "name"
+      _id: "_id"
+  User:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      password:
+        type: "string"
+      email:
+        type: "string"
+    example:
+      password: "password"
+      name: "name"
+      _id: "_id"
+      email: "email"
+  City_location:
+    properties:
+      lat:
+        type: "integer"
+      long:
+        type: "integer"
+    example:
+      lat: 0
+      long: 6
