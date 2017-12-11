@@ -29,4 +29,18 @@ How to run:
 
 6.run express script >npm run express
 
--Task N6 is done and could be checked (branch task_7_NoSQL).
+    6.1.install pg
+
+    6.2.install sequelize-cli globaly and localy
+
+    6.3.create db >sequelize db:create
+
+    6.4.create tables and migrate >sequelize db:migrate
+
+    6..add data to bd from json files >sequelize db:seed:all
+
+    6.6.run express script >npm run express
+
+-Task N7 is done and could be checked (branch task_7_NoSQL).
+
+>Task N8 in progres (branch task_8_swagger).
