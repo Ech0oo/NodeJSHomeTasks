@@ -17,18 +17,6 @@ How to run:
 
 -Task N6 is done and could be checked.
 
-1.install pg
-
-2.install sequelize-cli globaly and localy
-
-3.create db >sequelize db:create
-
-4.create tables and migrate >sequelize db:migrate
-
-5.add data to bd from json files >sequelize db:seed:all
-
-6.run express script >npm run express
-
     6.1.install pg
 
     6.2.install sequelize-cli globaly and localy
@@ -37,7 +25,7 @@ How to run:
 
     6.4.create tables and migrate >sequelize db:migrate
 
-    6..add data to bd from json files >sequelize db:seed:all
+    6.5.add data to bd from json files >sequelize db:seed:all
 
     6.6.run express script >npm run express
 
