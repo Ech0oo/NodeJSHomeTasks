@@ -2,5 +2,5 @@
 
 >Task N8 in progres.
 
-    To start run:
+    To start:
     >swagger project edit
