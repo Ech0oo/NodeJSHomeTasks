@@ -29,6 +29,7 @@ export async function getProductsByModelId(req, res, next) {
 };
 
 export async function postProducts(req, res, next) {
+    console.log("try to post DATA");
     const newProduct = req.body;
     try {
         const createdProduct = await Products.create(newProduct);

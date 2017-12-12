@@ -18,7 +18,7 @@ produces:
 - "application/json"
 tags:
 - name: "root"
-  description: "Default operations with data"
+  description: "Return info about a random city"
 - name: "api"
   description: "Access to information and operations with products and users"
 schemes:
@@ -28,6 +28,7 @@ paths:
     get:
       tags:
       - "root"
+      operationId: "printRandomDocument"
       summary: "Return a random City"
       description: "Get a random city from the mongodb using ODM mongoose"
       produces:
@@ -44,6 +45,7 @@ paths:
     get:
       tags:
       - "api"
+      operationId: "getProducts"
       summary: "Find all Products"
       description: "Return json obgect with all products"
       produces:
@@ -61,23 +63,27 @@ paths:
     post:
       tags:
       - "api"
+      operationId: "postProducts"
       summary: "Add new products"
-      produces:
+      consumes:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "name"
-        description: "User name"
+      - in: body
+        name: product
+        description: "A new product"
         required: true
         schema:
           $ref: "#/definitions/ProductPost"
       responses:
-        default:
+        200:
           description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
   /api/products/{modelId}:
     get:
       tags:
       - "api"
+      operationId: "getProductsByModelId"
       summary: "Get an array of the Product names by modelId"
       description: "Return an array of the product names"
       produces:
@@ -101,6 +107,7 @@ paths:
     get:
       tags:
       - "api"
+      operationId: "getUsers"
       summary: "Get all Users"
       description: "Find all Users"
       produces:

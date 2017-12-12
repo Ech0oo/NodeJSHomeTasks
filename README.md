@@ -1,6 +1,6 @@
 # NodeJS homework tasks
 
->Task N8 in progres.
+-Task N8 is done and could be checked.
 
-    To start:
+    To start swagger:
     >swagger project edit
