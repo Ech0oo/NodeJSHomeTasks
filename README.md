@@ -31,4 +31,7 @@ How to run:
 
 -Task N7 is done and could be checked (branch task_7_NoSQL).
 
->Task N8 in progres (branch task_8_swagger).
+-Task N8 is done and could be checked (branch task_8_swagger).
+
+    To start swagger:
+    >swagger project edit
