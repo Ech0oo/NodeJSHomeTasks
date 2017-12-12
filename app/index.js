@@ -4,7 +4,8 @@ import {
 	parsedQuery,
 	bodyParser,
 	addCities,
-	rootController
+	rootController,
+	crossOrigin
 } from "./app";
 
 const port = process.env.PORT || 8081;
@@ -15,6 +16,7 @@ app.listen(port, () => {
 
 addCities();
 
+app.use(crossOrigin);
 app.use(parsedQuery);
 app.use(bodyParser.json());
 app.use(rootController.addUsers);

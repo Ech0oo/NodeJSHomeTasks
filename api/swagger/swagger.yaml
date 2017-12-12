@@ -10,10 +10,8 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-servers:
-- url: http://localhost:8081/
-description: Development server
-
+host: localhost:8081
+basePath: /
 consumes:
 - "application/json"
 produces:
@@ -72,7 +70,7 @@ paths:
         description: "User name"
         required: true
         schema:
-          $ref: "#/definitions/Product"
+          $ref: "#/definitions/ProductPost"
       responses:
         default:
           description: "successful operation"
@@ -148,9 +146,9 @@ definitions:
       name:
         type: "string"
       modelId:
-        type: "string"
+        type: "integer"
     example:
-      modelId: "modelId"
+      modelId: 2
       name: "name"
       _id: "_id"
   User:
@@ -178,3 +176,13 @@ definitions:
     example:
       lat: 0
       long: 6
+  ProductPost:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      modelId:
+        type: "integer"
+    example:
+      modelId: 2
+      name: "name"

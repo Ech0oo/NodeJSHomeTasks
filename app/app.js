@@ -1,3 +1,4 @@
+import {crossOrigin} from "./middlewares/cors-headers";
 import {parsedQuery} from "./middlewares/query-parser";
 import {apiRouter} from "./routes/api-router";
 import bodyParser from "body-parser";
@@ -18,4 +19,4 @@ db.once("open", function() {
 const express = require('express');
 const app = express();
 
-export {app, apiRouter, parsedQuery, bodyParser, addCities, rootController};
+export {app, apiRouter, parsedQuery, bodyParser, addCities, rootController, crossOrigin};
