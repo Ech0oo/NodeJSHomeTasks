@@ -4,7 +4,7 @@ import {Strategy as LocalStrategy} from "passport-local";
 import {Strategy as JwtStrategy} from "passport-jwt";
 import {ExtractJwt} from "passport-jwt";
 import {authProp} from "../config/auth-properties";
-import {Strategy as FacebookStrategy} from "passport-facebook";
+import {Strategy as GitHubStrategy} from "passport-github2";
 
 passport.use(new LocalStrategy({
     usernameField: "userName",
@@ -36,16 +36,20 @@ passport.use(new JwtStrategy({
     }
 }));
 
-const opt = {
-    clientID: authProp.facebook.clientID,
-    clientSecret: authProp.facebook.clientSecret,
-    callbackURL: authProp.facebook.callbackURL,
-    session: false
-};
-
-passport.use(new FacebookStrategy(opt,
+passport.use(new GitHubStrategy({
+    clientID: authProp.github.clientID,
+    clientSecret: authProp.github.clientSecret,
+    callbackURL: authProp.github.callbackURL
+},
     function (accessToken, refreshToken, profile, done) {
-        done(null, profile.id);
+        if (profile.id) {
+            // replace the github user to the user from users.json
+            const user = {
+                "name": "user1",
+                "password": "password1"
+            };
+            done(null, user);
+        }
     }
 ));
 
